@@ -1,4 +1,4 @@
-Open CV Darts Calculation
+# Open CV Darts Calculation
 The purpose of this project is to calculate dart points via dart image.
 
 For starting the system you will need to run the following things:
