@@ -1,0 +1,58 @@
+<div class="row" style="text-align: center;">
+    <div class="col-sm-12">
+        <h1 style="font-family: 'Courier New', Courier, monospace; margin-top: 2%; background-color: rgb(29, 245, 29); border-radius: 50px;">
+            <b>CALCULATE DART POINTS APP</b>
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <button (click)="back()" style="width: 200px; height: 50px; font-size: 20px; font-family: Georgia, 'Times New Roman', Times, serif; color: red; background-color: greenyellow;">
+            GO BACK
+        </button>
+    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4"></div>
+</div>
+<div class="row" style="margin-top: 150px;">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-4">
+        <span style="margin-top: 150px; text-align: center; font-size: 25px; font-family: Georgia, 'Times New Roman', Times, serif; color: red; background-color: greenyellow;">
+            UPLOAD THE PHOTO:&nbsp;&nbsp;&nbsp;
+        </span>
+        <input type="file" (change)="onFileChangeInGame_x01($event)" style="background-color: greenyellow; color: red;"/>
+        <br>
+        <span style="margin-top: 50px; text-align: center; font-size: 35px; font-family: Georgia, 'Times New Roman', Times, serif; color: red;">
+            <span style="font-size: 50px;"><b>{{points}}</b></span> points gained
+        </span>
+    </div>
+    <div class="col-sm-3"></div>
+</div>
+<div class="row" style="text-align: center; margin-top: 100px;">
+    <div class="col-sm-6">
+        <span style="font-size: 50px; font-family: Georgia, 'Times New Roman', Times, serif;">
+            {{player1_name}}
+        </span><br>
+        <span [ngClass]="{'focus': player1_plays == 1}" style="margin-top: 50px; font-size: 50px; font-family: Georgia, 'Times New Roman', Times, serif;">
+            &nbsp;{{player1_points}}&nbsp;
+        </span>
+    </div>
+    <div class="col-sm-6">
+        <span style="font-size: 50px; font-family: Georgia, 'Times New Roman', Times, serif;">
+            {{player2_name}}
+        </span><br>
+        <span [ngClass]="{'focus': player1_plays == 0}" style="margin-top: 50px; font-size: 50px; font-family: Georgia, 'Times New Roman', Times, serif;">
+            &nbsp;{{player2_points}}&nbsp;
+        </span>
+    </div>
+</div>
+<div class="row" *ngIf="winner == ''">
+    <div class="col-sm-12">
+        HSV Values: {{tip_min_value}}, {{tip_max_value}}, {{flight_min_value}}, {{flight_max_value}}
+    </div>
+</div>
+<div class="row" *ngIf="winner != ''">
+    <div class="col-sm-12">
+        {{winner}} is winner!
+    </div>
+</div>

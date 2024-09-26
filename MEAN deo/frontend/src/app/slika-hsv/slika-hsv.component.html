@@ -1,0 +1,185 @@
+<div class="row" style="text-align: center;">
+    <div class="col-sm-12">
+        <h1 style="font-family: 'Courier New', Courier, monospace; margin-top: 2%; background-color: rgb(29, 245, 29); border-radius: 50px;">
+            <b>CALCULATE DART POINTS APP</b>
+        </h1>
+    </div>
+</div>
+<div class="row" style="text-align: left; margin-top: 70px; margin-left: 2%;" *ngIf="bPlay == 0">
+    <div class="col-sm-12">
+        <b>Welcome to the game of darts!</b><br>
+        Before entering a game, there are a few requirements that need to be followed in order for this application to work. This application is based on <b>color recognitions</b>. The colors of the official dartboard are <b>RED, GREEN, BLACK</b> and <b> WHITE</b>. The colors that are used for calculations are <b>RED</b> and <b>GREEN</b>.
+        So, if you want calculations to be precise, you need to have the darts with the different color than those two (suggestions: <b>BLUE</b>, <b>YELLOW</b>...) <br>
+        - OFFICIAL DARTBOARD: <img src="assets/official_dartboard.jpg"
+        style="width: 75px;height: 75px;">
+        <br><hr>
+        <b>REQUIREMENTS:</b>
+        <ul>
+            <li>You need to take your dartboard photos as near to the board as you can (all fields of the dartboard must be visible).</li>
+            <li>It would be ideal to cover up any red or green items that are in the area around the dartboard that will appear in the photo with a different hue.</li>
+            <li>You need to color your <b>darts on two sides</b>:
+                <ul>
+                    <li><b>Top</b> of the <b>FLIGHT</b> part (any color besides dartboard colors)</li>
+                    <li><b>BARREL</b> and <b>TIP</b> (any color besides dartboard colors and flight color)</li>
+                </ul>
+            </li>
+            <li>In order for app to know what color you are using on the flight top and barrel/tip, you will need to upload three different photos of the darts on your dartboard.</li>
+        </ul>
+        <br>
+            - Check the examples of how the dart can be colored and how the photo of the dartboard should look:
+        <hr>
+        Top of the flight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Barrel and tip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dartboard photo 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dartboard photo 2
+        <br>
+        <img src="assets/top_flight.jpg" style="width: 125px;height: 125px; border-radius: 20px;">&nbsp;&nbsp;&nbsp;
+        <img src="assets/barrel_tip2.jpg" style="width: 125px;height: 125px; border-radius: 20px;">&nbsp;&nbsp;&nbsp;
+        <img src="assets/one_five.jpg" style="width: 100px;height: 125px; border-radius: 20px;">&nbsp;&nbsp;&nbsp;
+        <img src="assets/double_fourteen.jpg" style="width: 200px;height: 125px; border-radius: 20px;"><br>
+    </div>
+</div>
+<hr>
+<div class="row" *ngIf="bPlay == 0" style="text-align: center; margin-top: 50px;">
+    <div class="col-sm-12" style="font-size: 30px; font-family: Georgia, 'Times New Roman', Times, serif;">
+        <span style="border-style: double; border-width: 5px;">If you have met all the requirements, enter players names and enjoy!</span>
+    </div>
+</div>
+<div class="row" *ngIf="bPlay == 0" style="margin-top: 50px;">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <form>
+            <table style="font-size: 25px;  font-family: Georgia, 'Times New Roman', Times, serif;">
+                <tr>
+                    <td>PLAYER 1:</td>
+                    <td>
+                        <input type="text" name="player1_name" [(ngModel)]="player1_name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>PLAYER 2:</td>
+                    <td>
+                        <input type="text" name="player2_name" [(ngModel)]="player2_name">
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <button (click)="play()" style="width: 100%; height: 100px; font-size: 50px; font-family: Georgia, 'Times New Roman', Times, serif; color: red; background-color: greenyellow;">
+                PLAY GAME
+            </button>    
+        </form>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+<div class="row" *ngIf="bPlay == 1">
+    <div class="col-sm-4">
+        <button (click)="back()" style="width: 200px; height: 50px; font-size: 20px; font-family: Georgia, 'Times New Roman', Times, serif; color: red; background-color: greenyellow;">
+            GO BACK
+        </button>
+    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4"></div>
+</div>
+<div class="row" *ngIf="bPlay == 1" style="text-align: center; margin-top: 50px; font-size: 20px;">
+    <div class="col-sm-12">
+        <b>Upload 3 different photos of your darts on a dartboard</b>:<br><br>
+        <button (click)="reset()" style="width: 150px; height: 50px; font-size: 15px; font-family: Georgia, 'Times New Roman', Times, serif; color: red; background-color: greenyellow;">
+            RESET UPLOADING
+        </button>
+    </div>
+</div>
+<div class="row" *ngIf="bPlay == 1">
+    <div class="col-sm-4" style="text-align: center;margin-bottom: 5%; margin-top: 5%; border-style: double;">
+        <span> First photo:</span><br><br>
+        <span *ngIf="clickCnt == 0 && this.images_123 == 0" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** UPLOAD first photo ***</b></span>
+        <span *ngIf="clickCnt == 0 && imageSrc && this.images_123 == 1" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** Click on the TOP of the FLIGHT ***</b></span>
+        <span *ngIf="clickCnt == 1 && imageSrc && this.images_123 == 1" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** Click on the TIP or the BARREL ***</b></span>
+        <input type="file" (change)="onFileChange1($event)" style="background-color: greenyellow; color: red;"/>
+    </div>
+    <div class="col-sm-4" style="text-align: center;margin-bottom: 5%; margin-top: 5%; border-style: double;">
+        <span> Second photo:</span><br><br>
+        <span *ngIf="clickCnt == 2 && this.images_123 == 1" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** UPLOAD second photo ***</b></span>
+        <span *ngIf="clickCnt == 2 && imageSrc && this.images_123 == 2" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** Click on the TOP of the FLIGHT ***</b></span>
+        <span *ngIf="clickCnt == 3 && imageSrc && this.images_123 == 2" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** Click on the TIP or the BARREL ***</b></span>
+        <input type="file" (change)="onFileChange2($event)" style="background-color: greenyellow; color: red;"/>
+    </div>
+    <div class="col-sm-4" style="text-align: center;margin-bottom: 5%; margin-top: 5%; border-style: double;">
+        <span> Third photo:</span><br><br>
+        <span *ngIf="clickCnt == 4 && this.images_123 == 2" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** UPLOAD third photo ***</b></span>
+        <span *ngIf="clickCnt == 4 && imageSrc && this.images_123 == 3" style="color: rgba(255, 0, 0); font-size: large;"> <b>*** Click on the TOP of the FLIGHT ***</b></span>
+        <span *ngIf="clickCnt == 5 && imageSrc && this.images_123 == 3" style="color: rgb(255, 0, 0); font-size: large;"> <b>*** Click on the TIP of the BARREL ***</b></span>
+        <input type="file" (change)="onFileChange3($event)" style="background-color: greenyellow; color: red;"/>
+    </div>
+</div>
+<div class="row" *ngIf="bPlay==1 && bStart == 0">
+    <div class="col-sm-12">
+        <img *ngIf="imageSrc" [src]="imageSrc" (click)="getHSV($event)" alt="Uploaded Image" style="border-radius: 10%;"/><br>
+        <p *ngIf="hsvValue"  style="color: red; font-size: large;">HSV Value: <b>{{ hsvValue }}</b></p>
+    </div>
+</div>
+<div class="row" *ngIf="bStart == 1">
+    <div class="col-sm-12">
+        <span>tip color range: {{tip_min_value}} - {{tip_max_value}}</span><br>
+        <span>flight color range: {{flight_min_value}} - {{flight_max_value}}</span>
+    </div>
+</div>
+<div class="row" *ngIf="bStart == 1">
+    <div class="col-sm-6">
+        <button (click)="start_x01()" style="width: 100%; height: 100px; font-size: 50px; font-family: Georgia, 'Times New Roman', Times, serif; color: red; background-color: greenyellow;">
+            501
+        </button>
+    </div>
+    <div class="col-sm-6">
+        <button (click)="start_clock()" style="width: 100%; height: 100px; font-size: 50px; font-family: Georgia, 'Times New Roman', Times, serif; color: red; background-color: greenyellow;">
+            AROUND THE CLOCK
+        </button>
+    </div>
+</div>
+<hr>
+<div class="row" *ngIf="bPlay == 0" style="text-align: center; align-items: center; font-size: 30px; font-family: Georgia, 'Times New Roman', Times, serif; color: brown;">
+    <div class="col-sm-6">
+        501 CHAMPIONS
+    </div>
+    <div class="col-sm-6">
+        Around The Clock CHAMPIONS
+    </div>
+</div>
+<div class="row" *ngIf="bPlay == 0" style="margin-top: 20px; text-align: center; align-items: center; font-size: 30px; font-family: Georgia, 'Times New Roman', Times, serif;">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-4" style="text-align: center; align-items: center;">
+        <table style="width: 100%; border-style: double; border-width: 10px;">
+            <tr style="border-style: double; border-width: 10px;">
+                <th style="border-style: double; border-width: 10px;">Name</th>
+                <th>Wins</th>
+            </tr>
+            <tr *ngFor="let player_x01 of dart_x01_players; let i = index" style="border-style: double; border-width: 10px;">
+                <td style="background-color: white; border-style: double; border-width: 10px;">
+                    <img *ngIf="i == 0" src="assets/gold.jpg" style="width: 25px; height: 30px;">
+                    <img *ngIf="i == 1" src="assets/silver.jpg" style="width: 25px; height: 30px;">
+                    <img *ngIf="i == 2" src="assets/bronze.jpg" style="width: 25px; height: 30px;">
+                    {{player_x01.name}}
+                </td>
+                <td style="background-color: rgba(172, 255, 47, 0.629)">
+                    {{player_x01.wins}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-4">
+        <table style="width: 100%; border-style: double; border-width: 10px;">
+            <tr style="border-style: double; border-width: 10px;">
+                <th style="border-style: double; border-width: 10px;">Name</th>
+                <th>Wins</th>
+            </tr>
+            <tr *ngFor="let player_clock of dart_clock_players; let i = index" style="border-style: double; border-width: 10px;">
+                <td style="background-color: white; border-style: double; border-width: 10px;">
+                    <img *ngIf="i == 0" src="assets/gold.jpg" style="width: 25px; height: 30px;">
+                    <img *ngIf="i == 1" src="assets/silver.jpg" style="width: 25px; height: 30px;">
+                    <img *ngIf="i == 2" src="assets/bronze.jpg" style="width: 25px; height: 30px;">
+                    {{player_clock.name}}
+                </td>
+                <td style="background-color: rgba(172, 255, 47, 0.629)">{{player_clock.wins}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
